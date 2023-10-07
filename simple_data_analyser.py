@@ -4,7 +4,6 @@ import numpy as np
 class SimpleDataAnalyser:
     
     def extract_property_info(self,file_path='') :
-        handleError = None
         try:
             if not file_path:
                 raise ValueError("\nError: File path cannot be empty")
