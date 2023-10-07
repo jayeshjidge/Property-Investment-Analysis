@@ -5,7 +5,7 @@ class SimpleDataAnalyser:
     
     def extract_property_info(self,file_path='') :
         try:
-            if not file_path:
+            if not file_path.strip():
                 raise ValueError("\nError: File path cannot be empty")
             
             if isinstance(file_path, int):
@@ -23,11 +23,11 @@ class SimpleDataAnalyser:
         except KeyboardInterrupt:
             os.system('cls')
             
-    def currency_exchange(self, dataframe = None, exchange_rate = None):
+    def currency_exchange(self,dataframe = None, exchange_rate = None):
         try:
             
             if not isinstance(dataframe, pd.DataFrame) or dataframe.empty:
-                raise ValueError("\nError: Invalid or Empty data")
+                raise ValueError("\nError: Invalid or Empty data in file")
 
             if not isinstance(exchange_rate,float) :
                 raise ValueError("\nInput Error: Please enter correct input type")
@@ -45,6 +45,34 @@ class SimpleDataAnalyser:
             os.system('cls')
             print(e)
             return np.array([])
+        
+        
+    def suburb_summary(self, dataframe = None, suburb = ''):
+        try:
+            if not isinstance(dataframe, pd.DataFrame) or dataframe.empty:
+                raise ValueError("\nError: Invalid or Empty data in file")
+            
+            if not isinstance(suburb,str) or not suburb.strip():
+                raise ValueError("\nInput Error: Please enter correct input")
+            
+            if suburb.lower() == "all":
+                columns = dataframe[['bedrooms', 'bathrooms', 'parking_spaces']].describe()
+            else:
+                temp = dataframe.copy()
+                temp['suburb'] = dataframe['suburb'].str.lower()
+                suburb_dataframe = temp[temp['suburb'] == suburb.lower()]
+                
+                if suburb_dataframe.empty:
+                    raise ValueError(f"\nResult Not found: Suburb '{suburb}' does not exist in the data")
+                
+                columns = suburb_dataframe[['bedrooms', 'bathrooms', 'parking_spaces']].describe()
+            os.system('cls')    
+            print(f"\n Summary Details for {suburb} Suburb:\n")
+            print(columns)
+
+        except ValueError as e:
+            os.system('cls')
+            print(e)
 
 
 
@@ -54,4 +82,4 @@ class SimpleDataAnalyser:
 # dataframe = obj.extract_property_info(filePath)
 # empty_df = pd.DataFrame()
 # currency_np_array = obj.currency_exchange(dataframe,1.0)
-# print(currency_np_array)
+# obj.suburb_summary(dataframe,"ForeSt Hill")
