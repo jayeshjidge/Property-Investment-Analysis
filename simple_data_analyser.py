@@ -20,13 +20,13 @@ class SimpleDataAnalyser:
             os.system('cls')
 
     def currency_exchange(self, dataframe=None, exchange_rate=None):
-        
         try:
             ValidateRequest.validate_dataframe(dataframe)
             ValidateRequest.validate_exchange_rate(exchange_rate)
 
             temp_frame = dataframe.copy()
-            temp_frame['price'].fillna(0, inplace=True)
+            # temp_frame['price'].fillna(0, inplace=True)
+            # temp_frame.dropna(subset=['price'], inplace=True)
             temp_frame['price'] = temp_frame['price'] * exchange_rate
             target_rate = temp_frame['price'].to_numpy()
             return target_rate
@@ -35,6 +35,8 @@ class SimpleDataAnalyser:
             os.system('cls')
             print(f"\n{e}")
             return np.array([])
+        except KeyboardInterrupt:
+            os.system('cls')
 
     def suburb_summary(self, dataframe=None, suburb=''):
         try:
@@ -58,6 +60,8 @@ class SimpleDataAnalyser:
         except ValueError as e:
             os.system('cls')
             print(f"\n{e}")
+        except KeyboardInterrupt:
+            os.system('cls')
 
     def avg_land_size(self, dataframe=None, suburb=''):
         try:
@@ -94,14 +98,19 @@ class SimpleDataAnalyser:
         except ValueError as e:
             os.system('cls')
             print(f"\n{e}")
+        except KeyboardInterrupt:
+            os.system('cls')
             
     
 
 
-obj = SimpleDataAnalyser()
-filePath = os.path.join('property_information.csv')
-dataframe = obj.extract_property_info(filePath)
-empty_df = pd.DataFrame()
+# obj = SimpleDataAnalyser()
+# filePath = os.path.join('property_information.csv')
+# dataframe = obj.extract_property_info(filePath)
+# empty_df = pd.DataFrame()
 # currency_np_array = obj.currency_exchange(dataframe,1.0)
 # print(currency_np_array)
 # obj.suburb_summary(dataframe,'all')
+
+
+#note to convert temp_frame['price'] = temp_frame['price'] * exchange_rate into temp = temp_frame['price'] * exchange_rate
