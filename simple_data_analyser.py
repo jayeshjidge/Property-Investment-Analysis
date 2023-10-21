@@ -1,59 +1,116 @@
+import pandas as pd
+import os
+import numpy as np
+from validate_data import ValidateRequest
 
-from simple_data_analyser import SimpleDataAnalyser
-import os,time
+class SimpleDataAnalyser:
 
-class Investor:
-    def __init__(self):
-        self.choice = None
+    def extract_property_info(self, file_path=''):
         
-    @staticmethod
-    def print_menu():
-        print(" 1. Load Property Data")
-        print(" 2. Display Property Information")
-        print(" 3. Visualize Data")
-        print(" 4. Exit")
-        
-    @staticmethod     
-    def exit_system():
-        os.system('cls')
-        print("\n Exiting Advisor System...")
-        time.sleep(1)
-        os.system('cls')
+        try:
+            ValidateRequest.validate_file_path(file_path)
+            csv_data = pd.read_csv(file_path)
+            return csv_data
 
-    def main_menu(self):
-        while True:
-            print("\n  -----------------------------")
-            print(" | Property Investment Analyser |")
-            print("  -----------------------------")
-            self.print_menu()
-            try:
-                choice = input("\n Enter your choice: ")
-                if choice.isdigit():
-                    choice = int(choice)
-                else:
-                    raise ValueError("\n Invalid Input type. please enter correct input")
-                
-                if choice == 1:
-                    pass
+        except ValueError as e:
+            os.system('cls')
+            print(f"\n{e}")
+            return pd.DataFrame()
+        except KeyboardInterrupt:
+            os.system('cls')
 
-                elif choice == 2:
-                    pass
+    def currency_exchange(self, dataframe=None, exchange_rate=None):
+        try:
+            ValidateRequest.validate_dataframe(dataframe)
+            ValidateRequest.validate_exchange_rate(exchange_rate)
 
-                elif choice == 3:
-                    pass
+            temp_frame = dataframe.copy()
+            # temp_frame['price'].fillna(0, inplace=True)
+            # temp_frame.dropna(subset=['price'], inplace=True)
+            temp_frame['price'] = temp_frame['price'] * exchange_rate
+            target_rate = temp_frame['price'].to_numpy()
+            return target_rate
 
-                elif choice == 4:
-                    self.exit_system()
-                    break
-                else:
-                    raise ValueError(f"\n Incorrect Choice {choice} : Does not exist ! Please select choice from Menu")
-                self.choice = choice
-                break
-            except ValueError as e:
-                os.system('cls')
-                print(e)
-            except KeyboardInterrupt:
-                os.system('cls')
-                break
+        except ValueError as e:
+            os.system('cls')
+            print(f"\n{e}")
+            return np.array([])
+        except KeyboardInterrupt:
+            os.system('cls')
+
+    def suburb_summary(self, dataframe=None, suburb=''):
+        try:
+            ValidateRequest.validate_dataframe(dataframe)
+            ValidateRequest.validate_string(suburb)
+            
+            if suburb.lower() == "all":
+                columns = dataframe[['bedrooms',
+                                     'bathrooms', 'parking_spaces']].describe()
+            else:
+                temp = dataframe.copy()
+                temp['suburb'] = dataframe['suburb'].str.lower()
+                suburb_dataframe = temp[temp['suburb'] == suburb.lower()]
+                ValidateRequest.is_dataframe_empty(suburb_dataframe,suburb)
+                columns = suburb_dataframe[[
+                    'bedrooms', 'bathrooms', 'parking_spaces']].describe()
+            os.system('cls')
+            print(f"\nSummary Details for {suburb.capitalize()} Suburb:\n")
+            print(columns)
+
+        except ValueError as e:
+            os.system('cls')
+            print(f"\n{e}")
+        except KeyboardInterrupt:
+            os.system('cls')
+
+    def avg_land_size(self, dataframe=None, suburb=''):
+        try:
+
+            ValidateRequest.validate_dataframe(dataframe)
+            ValidateRequest.validate_string(suburb)
+
+            temp = dataframe.copy()
+            temp['suburb'] = dataframe['suburb'].str.lower()
+            suburb = suburb.lower()
+
+            if suburb == 'all':
+                suburb_dataframe = temp
+            else:
+                suburb_dataframe = temp[temp['suburb'] == suburb.lower()]
+
+            ValidateRequest.is_dataframe_empty(suburb_dataframe,suburb)
+            land_size_col_dataframe = suburb_dataframe['land_size']
+            land_size_unit_col_dataframe = dataframe['land_size_unit'].str.strip().str.lower()
+            csv_file_units = {
+                'ha': 10000.0,      
+                'm�': 1.0,          
+                }
+            land_size_area = land_size_col_dataframe * land_size_unit_col_dataframe.map(csv_file_units)
+            correct_entries_boolean = (land_size_area > 0) & (land_size_area.notna())
+            avg_land_size = land_size_area[correct_entries_boolean].mean()
+            os.system('cls')
+            if pd.isna(avg_land_size):
+                print(f"\nNo valid land size data found in {suburb.capitalize()}.")
+                return None
+            else:
+                print(f"\nAverage Land Size in {suburb.capitalize()} suburb is : {avg_land_size:.2f} m²")
+                return avg_land_size
+        except ValueError as e:
+            os.system('cls')
+            print(f"\n{e}")
+        except KeyboardInterrupt:
+            os.system('cls')
+            
+    
 
 
+# obj = SimpleDataAnalyser()
+# filePath = os.path.join('property_information.csv')
+# dataframe = obj.extract_property_info(filePath)
+# empty_df = pd.DataFrame()
+# currency_np_array = obj.currency_exchange(dataframe,1.0)
+# print(currency_np_array)
+# obj.suburb_summary(dataframe,'all')
+
+
+#note to convert temp_frame['price'] = temp_frame['price'] * exchange_rate into temp = temp_frame['price'] * exchange_rate
