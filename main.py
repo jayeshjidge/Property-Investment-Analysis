@@ -10,7 +10,7 @@ def get_currency_type(user_suburb):
     while True:
         try:
             print(f"\n Suburb selected : {user_suburb.capitalize()}")
-            print("\n Eg: [AUD, USD, INR, CNY, JPY, HKD, KRW, GBP, EUR, SGD] or \n (Type menu to go back)")
+            print("\n Choose from [AUD, USD, INR, CNY, JPY, HKD, KRW, GBP, EUR, SGD]\n\n [Type menu to go back]")
             user_currency_type = input("\n Enter your currency type: ")
             ValidateRequest.validate_string(user_currency_type)
             return user_currency_type
@@ -24,7 +24,7 @@ def get_currency_type(user_suburb):
 def get_target_currency(user_suburb):
     while True:
         try:
-            print(f"\n Suburb selected : {user_suburb.capitalize()} \n\n (Type 0 to go back)")
+            print(f"\n Suburb selected : {user_suburb.capitalize()} \n\n [Type 0 to go back]")
             user_traget_currency = input("\n Enter your target price: ")
             ValidateRequest.validate_target_price(user_traget_currency)
             return user_traget_currency
@@ -39,8 +39,10 @@ def get_target_currency(user_suburb):
 def show_suburb_summary_1(dframe, simple_data_obj):
     while True:
         try:
-            print("\n Summary of your Area")
-            print("\n (Type 'all' to get summary of all suburb) or \n (Type 'menu' to go back)")
+            print("\n  --------------------------")
+            print(" | Summary of your Suburb : |")
+            print("  --------------------------")
+            print("\n [Type 'all' to get summary of all suburb]\n\n [Type 'menu' to go back]")
             user_suburb = input("\n Enter your suburb: ")
             os.system('cls')
             if user_suburb.lower() == 'menu':
@@ -57,8 +59,10 @@ def show_suburb_summary_1(dframe, simple_data_obj):
 def determine_avg_land_size_2(dframe, simple_data_obj):
     while True:
         try:
-            print("\n Get Avg land size of your Area :-")
-            print("\n (Type 'all' to get summary of all suburb) or \n (Type 'menu' to go back)")
+            print("\n  ------------------------------------")
+            print(" | Get Avg land size of your suburb : |")
+            print("  ------------------------------------")
+            print("\n [Type 'all' to get avg size of all suburb]\n\n [Type 'menu' to go back]")
             user_suburb = input("\n Enter your suburb: ")
             os.system('cls')
             if user_suburb.lower() == 'menu':
@@ -76,8 +80,10 @@ def determine_avg_land_size_2(dframe, simple_data_obj):
 def calculate_property_val_dist_3(dframe,data_visual_obj):
     while True:
         try:
-            print("\n Property value distribution of your Area :-")
-            print("\n (Type 'all' to get summary of all suburb) or \n (Type 'menu' to go back)")
+            print("\n  ----------------------------------------------")
+            print(" | Property value distribution of your suburb : |")
+            print("  ----------------------------------------------")
+            print("\n [Type 'all' to get distribution of all suburb]\n\n [Type 'menu' to go back]")
             user_suburb = input("\n Enter your suburb: ")
             ValidateRequest.validate_string(user_suburb)
             
@@ -104,8 +110,10 @@ def calculate_property_val_dist_3(dframe,data_visual_obj):
 def find_property_prices_5 (dframe,data_visual_obj):
     while True:
         try:
-            print("\n Find property prices :-")
-            print("\n (Type 'menu' to go back)")
+            print("\n  ------------------------")
+            print(" | Find property prices : |")
+            print("  ------------------------")
+            print("\n [Type 'menu' to go back]")
             user_suburb = input("\n Enter your suburb: ")
             ValidateRequest.validate_string(user_suburb)
             os.system('cls')

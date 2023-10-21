@@ -6,17 +6,19 @@ class Investor:
 
     @staticmethod
     def print_menu():
-        print(" 1. Get summary of your suburb")
-        print(" 2. Check average land size")
-        print(" 3. Visualize data of your suburb with histogram")
-        print(" 4. Get sales trend analysis through line chart")
-        print(" 5. find Property prices")
+        print("\n 1. Get summary of your suburb \n")
+        print(" 2. Check average land size \n")
+        print(" 3. Visualize data of your suburb with histogram\n")
+        print(" 4. Get sales trend analysis through line chart\n")
+        print(" 5. Find Property prices\n")
         print(" 6. Exit")
         
     @staticmethod    
     def exit_system():
         os.system('cls')
-        print("\n Exiting Advisor System...")
+        print("\n  ---------------------------")
+        print(" | Exiting Advisor System... |")
+        print("  ---------------------------")
         time.sleep(1)
         os.system('cls')
         
