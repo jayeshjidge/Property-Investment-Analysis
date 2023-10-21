@@ -55,7 +55,7 @@ class SimpleDataAnalyser:
                 columns = suburb_dataframe[[
                     'bedrooms', 'bathrooms', 'parking_spaces']].describe()
             os.system('cls')
-            print(f"\nSummary Details for {suburb.capitalize()} Suburb:\n")
+            print(f"\n Summary Details for {suburb.capitalize()} Suburb:\n")
             print(columns)
 
         # except ValueError as e:
@@ -66,7 +66,7 @@ class SimpleDataAnalyser:
             # print("wd")
 
     def avg_land_size(self, dataframe=None, suburb=''):
-        try:
+        # try:
 
             ValidateRequest.validate_dataframe(dataframe)
             ValidateRequest.validate_string(suburb)
@@ -92,16 +92,16 @@ class SimpleDataAnalyser:
             avg_land_size = land_size_area[correct_entries_boolean].mean()
             os.system('cls')
             if pd.isna(avg_land_size):
-                print(f"\nNo valid land size data found in {suburb.capitalize()}.")
+                print(f"\n No valid land size data found in {suburb.capitalize()}.")
                 return None
             else:
-                print(f"\nAverage Land Size in {suburb.capitalize()} suburb is : {avg_land_size:.2f} m²")
+                print(f"\n Average Land Size in {suburb.capitalize()} suburb is : {avg_land_size:.2f} m²")
                 return avg_land_size
-        except ValueError as e:
-            os.system('cls')
-            print(f"\n {e}")
-        except KeyboardInterrupt:
-            os.system('cls')
+        # except ValueError as e:
+        #     os.system('cls')
+        #     print(f"\n {e}")
+        # except KeyboardInterrupt:
+        #     os.system('cls')
             
     
 

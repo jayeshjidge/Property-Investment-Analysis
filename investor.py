@@ -7,8 +7,8 @@ class Investor:
     @staticmethod
     def print_menu():
         print(" 1. Get summary of your suburb")
-        print(" 2. Display Property Information")
-        print(" 3. Visualize Data")
+        print(" 2. Check average land size of your area")
+        print(" 3. Visualize data of your suburb")
         print(" 4. Exit")
         
     @staticmethod    
