@@ -4,6 +4,7 @@ from simple_data_analyser import SimpleDataAnalyser
 import os
 from validate_data import ValidateRequest
 from data_visualiser import DataVisualiser
+import pandas as pd
 
 def get_currency_type(user_suburb):
     while True:
@@ -132,47 +133,67 @@ def find_property_prices_5 (dframe,data_visual_obj):
             os.system('cls')
             break
         
+def load_csv_file(simple_data_obj):
+    filePath = os.path.join('property_infomation.csv')
+    while not os.path.isfile(filePath):
+        os.system('cls')
+        try:
+            print(f"\n Error: File {filePath} does not exist")
+            print(f" File location should be : Property-Investment-Analysis/{filePath}")
+            print("\n Press Enter to continue after you have added the file or '0' to exit.")
+            user_option = input("\n Enter you choice : ")
+            if user_option == '0':
+                return pd.DataFrame()
+            
+        except KeyboardInterrupt:
+            return pd.DataFrame()
+        
+    return simple_data_obj.extract_property_info(filePath)
 
 def main():
-    os.system('cls')
-    filePath = os.path.join('property_information.csv')
-    investor_obj = Investor()
-    simple_data_obj = SimpleDataAnalyser()
-    data_visual_obj = DataVisualiser()
-    try:
-        dframe = simple_data_obj.extract_property_info(filePath)
-        while True:
-            try:
-                investor_obj.main_menu()
-                choice = investor_obj.choice
+        os.system('cls')
+        
+        investor_obj = Investor()
+        simple_data_obj = SimpleDataAnalyser()
+        data_visual_obj = DataVisualiser()
+    
+        try:
+            dframe = load_csv_file(simple_data_obj)
+            if dframe.empty:
                 os.system('cls')
-                if choice == 1:
-                    show_suburb_summary_1(dframe, simple_data_obj)
-                                
-                elif choice == 2:
-                    determine_avg_land_size_2(dframe,simple_data_obj)
-                                
-                elif choice == 3:
-                    calculate_property_val_dist_3(dframe,data_visual_obj)
-                                
-                elif choice == 4:
-                    data_visual_obj.sales_trend(dframe)
-                    
-                elif choice == 5:
-                    find_property_prices_5(dframe,data_visual_obj)
-                else:
-                    break    
-            except ValueError as e:
-                os.system('cls')
-                print(f"\n {e}")
-            except KeyboardInterrupt:
-                os.system('cls')
-                break
-    except ValueError as e:
-                os.system('cls')
-                print(f"\n {e}")
-    except KeyboardInterrupt:
-                os.system('cls')
+                return
+            while True:
+                try:
+                    investor_obj.main_menu()
+                    choice = investor_obj.choice
+                    os.system('cls')
+                    if choice == 1:
+                        show_suburb_summary_1(dframe, simple_data_obj)
+                                    
+                    elif choice == 2:
+                        determine_avg_land_size_2(dframe,simple_data_obj)
+                                    
+                    elif choice == 3:
+                        calculate_property_val_dist_3(dframe,data_visual_obj)
+                                    
+                    elif choice == 4:
+                        data_visual_obj.sales_trend(dframe)
+                        
+                    elif choice == 5:
+                        find_property_prices_5(dframe,data_visual_obj)
+                    else:
+                        break    
+                except ValueError as e:
+                    os.system('cls')
+                    print(f"\n {e}")
+                except KeyboardInterrupt:
+                    os.system('cls')
+                    break
+        except ValueError as e:
+                    os.system('cls')
+                    print(f"\n {e}")
+        except KeyboardInterrupt:
+                    os.system('cls')
 
 
 

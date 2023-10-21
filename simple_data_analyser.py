@@ -7,19 +7,13 @@ class SimpleDataAnalyser:
 
     @staticmethod
     def extract_property_info(file_path=''):   
-        # try:
-            print("\n Loading your csv file ...")
+            print("\n Reading your csv file ...")
             ValidateRequest.validate_file_path(file_path)
             csv_data = pd.read_csv(file_path, engine='python')
+            ValidateRequest.validate_dataframe(csv_data)
             os.system('cls')
             return csv_data
 
-        # except ValueError as e:
-        #     os.system('cls')
-        #     print(f"\n {e}")
-        #     # return pd.DataFrame()
-        # except KeyboardInterrupt:
-        #     os.system('cls')
 
     def currency_exchange(self, dataframe=None, exchange_rate=None):
         try:

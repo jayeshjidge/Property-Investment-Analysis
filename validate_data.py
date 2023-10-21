@@ -9,15 +9,9 @@ class ValidateRequest:
     @staticmethod
     def validate_file_path(file_path):
         
-        if not file_path.strip():
-            raise ValueError("Error: File path cannot be empty")
-        
-        if isinstance(file_path, int):
-            raise ValueError("Error: File path cannot be an integer")
-        
         if not os.path.isfile(file_path):
-            raise ValueError(f"Error: File '{file_path}' does not exist")    
-            
+            raise ValueError(f"Error: File '{file_path}' does not exist")  
+          
     @staticmethod
     def validate_dataframe(dataframe):
         
