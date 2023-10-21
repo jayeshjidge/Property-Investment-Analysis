@@ -36,7 +36,7 @@ class ValidateRequest:
     @staticmethod
     def validate_string(string):
         
-        if not isinstance(string, str) or not string.strip():
+        if not isinstance(string, str) or not string.strip() or string.isdigit():
             raise ValueError("Input Error: Please enter correct input")
         
     

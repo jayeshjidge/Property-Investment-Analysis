@@ -5,19 +5,21 @@ from validate_data import ValidateRequest
 
 class SimpleDataAnalyser:
 
-    def extract_property_info(self, file_path=''):
-        
-        try:
+    @staticmethod
+    def extract_property_info(file_path=''):   
+        # try:
+            print("\n Loading your csv file ...")
             ValidateRequest.validate_file_path(file_path)
-            csv_data = pd.read_csv(file_path)
+            csv_data = pd.read_csv(file_path, engine='python')
+            os.system('cls')
             return csv_data
 
-        except ValueError as e:
-            os.system('cls')
-            print(f"\n{e}")
-            return pd.DataFrame()
-        except KeyboardInterrupt:
-            os.system('cls')
+        # except ValueError as e:
+        #     os.system('cls')
+        #     print(f"\n {e}")
+        #     # return pd.DataFrame()
+        # except KeyboardInterrupt:
+        #     os.system('cls')
 
     def currency_exchange(self, dataframe=None, exchange_rate=None):
         try:
@@ -33,16 +35,15 @@ class SimpleDataAnalyser:
 
         except ValueError as e:
             os.system('cls')
-            print(f"\n{e}")
+            print(f"\n {e}")
             return np.array([])
         except KeyboardInterrupt:
             os.system('cls')
 
     def suburb_summary(self, dataframe=None, suburb=''):
-        try:
+        # try:
             ValidateRequest.validate_dataframe(dataframe)
             ValidateRequest.validate_string(suburb)
-            
             if suburb.lower() == "all":
                 columns = dataframe[['bedrooms',
                                      'bathrooms', 'parking_spaces']].describe()
@@ -57,11 +58,12 @@ class SimpleDataAnalyser:
             print(f"\nSummary Details for {suburb.capitalize()} Suburb:\n")
             print(columns)
 
-        except ValueError as e:
-            os.system('cls')
-            print(f"\n{e}")
-        except KeyboardInterrupt:
-            os.system('cls')
+        # except ValueError as e:
+            # os.system('cls')
+            # print(f"\n s{e}")
+        # except KeyboardInterrupt:
+            # os.system('cls')
+            # print("wd")
 
     def avg_land_size(self, dataframe=None, suburb=''):
         try:
@@ -97,7 +99,7 @@ class SimpleDataAnalyser:
                 return avg_land_size
         except ValueError as e:
             os.system('cls')
-            print(f"\n{e}")
+            print(f"\n {e}")
         except KeyboardInterrupt:
             os.system('cls')
             
