@@ -42,12 +42,11 @@ def show_suburb_summary_1(dframe, simple_data_obj):
             print("\n Summary of your Area")
             print("\n (Type 'all' to get summary of all suburb) or \n (Type 'menu' to go back)")
             user_suburb = input("\n Enter your suburb: ")
+            os.system('cls')
             if user_suburb.lower() == 'menu':
-                os.system('cls')
-            else:
-                simple_data_obj.suburb_summary(dframe, user_suburb)
+                break
+            simple_data_obj.suburb_summary(dframe, user_suburb)
             break
-
         except ValueError as e:
             os.system('cls')
             print(f"\n {e}")
@@ -61,10 +60,10 @@ def determine_avg_land_size_2(dframe, simple_data_obj):
             print("\n Get Avg land size of your Area :-")
             print("\n (Type 'all' to get summary of all suburb) or \n (Type 'menu' to go back)")
             user_suburb = input("\n Enter your suburb: ")
+            os.system('cls')
             if user_suburb.lower() == 'menu':
-                os.system('cls')
-            else:
-                simple_data_obj.avg_land_size(dframe, user_suburb)
+                break
+            simple_data_obj.avg_land_size(dframe, user_suburb)
             break
 
         except ValueError as e:
@@ -165,7 +164,6 @@ def main():
             investor_obj = Investor()
             simple_data_obj = SimpleDataAnalyser()
             data_visual_obj = DataVisualiser()
-            
             dframe = load_csv_file(simple_data_obj)
             if dframe.empty:
                 return

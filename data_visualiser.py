@@ -1,7 +1,6 @@
     
 import pandas as pd
 import os
-import numpy as np
 import matplotlib.pyplot as plt
 from validate_data import ValidateRequest 
 from simple_data_analyser import SimpleDataAnalyser
@@ -9,7 +8,8 @@ from suburbs import suburbs_data
 
 class DataVisualiser: 
 
-    def prop_val_distribution(self,dataframe = None,suburb='',target_currency = '') :
+    @staticmethod
+    def prop_val_distribution(dataframe = None,suburb='',target_currency = '') :
             currency_dict = {
                 "AUD": 1.0, 
                 "USD": 0.66, 
@@ -55,8 +55,8 @@ class DataVisualiser:
             plt.savefig(output_file)
             print(f"\n Created histogram for {suburb} with location : {output_file}")
    
-        
-    def sales_trend(self,dataframe):
+    @staticmethod    
+    def sales_trend(dataframe):
             ValidateRequest.validate_dataframe(dataframe)
             temp = dataframe.copy()
             temp['sold_date'] = pd.to_datetime(temp['sold_date'], format="%d-%m-%Y")
@@ -73,8 +73,9 @@ class DataVisualiser:
             output_file = os.path.join(output_dir, 'sales_trend.png')
             plt.savefig(output_file)
             print(f"\n Created sales trend chart at : {output_file}")
-                
-    def locate_price(self,target_price, data,target_suburb):
+     
+    @staticmethod           
+    def locate_price(target_price, data,target_suburb):
             ValidateRequest.validate_dataframe(data)
             ValidateRequest.validate_target_price(target_price)
             ValidateRequest.validate_string(target_suburb)

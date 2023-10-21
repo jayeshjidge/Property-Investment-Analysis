@@ -1,6 +1,5 @@
 import pandas as pd
 import os
-import numpy as np
 from validate_data import ValidateRequest
 
 class SimpleDataAnalyser:
@@ -14,16 +13,17 @@ class SimpleDataAnalyser:
             os.system('cls')
             return csv_data
 
-
-    def currency_exchange(self, dataframe=None, exchange_rate=None):
+    @staticmethod
+    def currency_exchange(dataframe=None, exchange_rate=None):
             ValidateRequest.validate_dataframe(dataframe)
             ValidateRequest.validate_exchange_rate(exchange_rate)
             temp_frame = dataframe.copy()
             temp_frame['price'] = temp_frame['price'] * exchange_rate
             target_rate = temp_frame['price'].to_numpy()
             return target_rate
-
-    def suburb_summary(self, dataframe=None, suburb=''):
+        
+    @staticmethod
+    def suburb_summary(dataframe=None, suburb=''):
             ValidateRequest.validate_dataframe(dataframe)
             ValidateRequest.validate_string(suburb)
             if suburb.lower() == "all":
@@ -36,12 +36,11 @@ class SimpleDataAnalyser:
                 ValidateRequest.is_dataframe_empty(suburb_dataframe,suburb)
                 columns = suburb_dataframe[[
                     'bedrooms', 'bathrooms', 'parking_spaces']].describe()
-            os.system('cls')
             print(f"\n Summary details for {suburb.capitalize()} suburb:\n")
             print(f"\n {columns}")
             
-            
-    def avg_land_size(self, dataframe=None, suburb=''):
+    @staticmethod        
+    def avg_land_size(dataframe=None, suburb=''):
 
             ValidateRequest.validate_dataframe(dataframe)
             ValidateRequest.validate_string(suburb)
@@ -65,7 +64,6 @@ class SimpleDataAnalyser:
             land_size_area = land_size_col_dataframe * land_size_unit_col_dataframe.map(csv_file_units)
             correct_entries_boolean = (land_size_area > 0) & (land_size_area.notna())
             avg_land_size = land_size_area[correct_entries_boolean].mean()
-            os.system('cls')
             if pd.isna(avg_land_size):
                 print(f"\n No valid land size data found in {suburb.capitalize()}.")
                 return None
