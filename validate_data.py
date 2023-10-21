@@ -45,3 +45,42 @@ class ValidateRequest:
         
         if dataframe.empty:
             raise ValueError(f"Result Not found: Suburb '{suburb.capitalize()}' does not exist in the data")
+        
+    @staticmethod
+    def validate_target_price(target_price):
+        
+        if not isinstance(target_price, int):
+            raise ValueError("Input Error: Please enter a correct input type")
+        
+        if not target_price or target_price == 0:
+            raise ValueError("Empty Error: Target price cannot be zero")
+        
+        
+    @staticmethod
+    def reverse_insertion_sort(prices):
+        for i in range(1, len(prices)):
+            key = prices[i]
+            j = i - 1
+            while j >= 0 and key > prices[j]:
+                prices[j + 1] = prices[j]
+                j -= 1
+            prices[j + 1] = key
+            
+    @staticmethod
+    def binary_search(prices, target_price, low, high):
+        target_price = float(target_price)
+        # print("low",low)
+        # print("high",high)
+        if low > high:
+            return False
+        mid = (low + high) // 2
+        # print("mid",mid)
+        # print("price",prices[mid])
+        # print('')
+        if prices[mid] == target_price:
+            return True
+        elif prices[mid] > target_price:
+            return ValidateRequest.binary_search(prices, target_price, mid + 1, high)
+        else:
+            return ValidateRequest.binary_search(prices, target_price, low, mid - 1)
+

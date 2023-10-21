@@ -1,3 +1,4 @@
+    
 import pandas as pd
 import os
 import numpy as np
@@ -46,11 +47,21 @@ class DataVisualiser:
             else:
                 print(f"\nWarning: {target_currency} cannot be identified. Converting to AUD !")
             suburb_dataframe = suburb_dataframe.copy()
-            suburb_dataframe.dropna(subset=['price'], inplace=True)
-            plt.hist(suburb_dataframe['price'], bins=5, edgecolor='k', alpha=0.7)
-            plt.xlabel('Property Value')
-            plt.ylabel('Frequency')
+            suburb_dataframe.dropna(subset=['price', 'sold_date'], inplace=True)
+            suburb_dataframe['sold_date'] = pd.to_datetime(suburb_dataframe['sold_date'], format="%d/%m/%Y")
+            
+            # min_year = suburb_dataframe['sold_date'].dt.year.min()
+            # max_year = suburb_dataframe['sold_date'].dt.year.max()
+            # years_range = sorted(suburb_dataframe['sold_date'].dt.year.unique())
+            
+            plt.figure(figsize=(10, 6))
+            plt.hist2d(suburb_dataframe['sold_date'].dt.year, suburb_dataframe['price'],bins=20, cmap='viridis')
+            plt.colorbar(label='Frequency')
+            plt.ylabel('Property Value')
+            plt.xlabel('Year')
             plt.title(f'Property Value Distribution in {suburb.capitalize()} ({target_currency})')
+            plt.tight_layout()
+            
             output_dir = 'Histograms'
             os.makedirs(output_dir, exist_ok=True)
             output_file = os.path.join(output_dir, f'{suburb.lower()}_property_histogram_{target_currency}.png')
@@ -63,15 +74,69 @@ class DataVisualiser:
         except KeyboardInterrupt:
             os.system('cls')
         
+    def sales_trend(self,dataframe):
+        try:
+            ValidateRequest.validate_dataframe(dataframe)
+            temp = dataframe.copy()
+            temp['sold_date'] = pd.to_datetime(temp['sold_date'], format="%d/%m/%Y")
+            temp.dropna(subset=['sold_date'], inplace=True)
+            property_sold = temp['sold_date'].dt.year.value_counts().sort_index()
+            plt.figure(figsize=(10, 6))
+            plt.plot(property_sold.index, property_sold.values, marker='o', linestyle='-')
+            plt.xlabel('Year')
+            plt.ylabel('Number of Properties Sold')
+            plt.title('Sales Trend Over the Years')
+            plt.grid(True)
+            
+            output_dir = 'LineChart'
+            os.makedirs(output_dir, exist_ok=True)
+            output_file = os.path.join(output_dir, 'sales_trend.png')
+            plt.savefig(output_file)
+            print(f"\nCreated sales trend chart: {output_file}")
+            
+        except ValueError as e:
+            os.system('cls')
+            print(f"\n{e}")
+        except KeyboardInterrupt:
+            os.system('cls')
+                
+    def locate_price(self,target_price, data,target_suburb):
+        try:
+            ValidateRequest.validate_dataframe(data)
+            ValidateRequest.validate_target_price(target_price)
+            ValidateRequest.validate_string(target_suburb)
+            temp = data.copy()
+            temp['suburb'] = temp['suburb'].str.lower()
+            target_suburb = target_suburb.lower()
+            get_suburb = temp[temp['suburb'] == target_suburb]
+            get_suburb_price = get_suburb.copy()
+            get_suburb_price.dropna(subset=['price'], inplace=True)
+            ValidateRequest.is_dataframe_empty(get_suburb_price, target_suburb)
+            
+            get_price_list = list(get_suburb_price['price'])
+            # print(get_price_list,"\n")
+            ValidateRequest.reverse_insertion_sort(get_price_list)
+            # print(get_price_list)
+            found = ValidateRequest.binary_search(get_price_list, target_price, 0, len(get_price_list) - 1)
+            
+            return found
         
+        except ValueError as e:
+            os.system('cls')
+            print(f"\n{e}")
+        except KeyboardInterrupt:
+            os.system('cls')
         
-        
-# data_obj = DataVisualiser()
-# simple_obj = SimpleDataAnalyser()
-# file_path = os.path.join('property_information.csv')
-# dataframe = simple_obj.extract_property_info(file_path)
-
+data_obj = DataVisualiser()
+simple_obj = SimpleDataAnalyser()
+file_path = os.path.join('property_information.csv')
+dataframe = simple_obj.extract_property_info(file_path)
+empty_df = pd.DataFrame()
+data_obj.locate_price(500004,dataframe,'clayton')
 
 # data_obj.prop_val_distribution(dataframe,"clayton","AUD")
+# data_obj.sales_trend(dataframe)
 # for sub in suburbs_data:
 #     data_obj.prop_val_distribution(dataframe,sub,"A")
+
+
