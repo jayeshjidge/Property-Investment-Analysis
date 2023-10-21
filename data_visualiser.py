@@ -70,10 +70,10 @@ class DataVisualiser:
         #     os.system('cls')
         
     def sales_trend(self,dataframe):
-        try:
+        # try:
             ValidateRequest.validate_dataframe(dataframe)
             temp = dataframe.copy()
-            temp['sold_date'] = pd.to_datetime(temp['sold_date'], format="%d/%m/%Y")
+            temp['sold_date'] = pd.to_datetime(temp['sold_date'], format="%d-%m-%Y")
             temp.dropna(subset=['sold_date'], inplace=True)
             property_sold = temp['sold_date'].dt.year.value_counts().sort_index()
             plt.figure(figsize=(10, 6))
@@ -87,16 +87,16 @@ class DataVisualiser:
             os.makedirs(output_dir, exist_ok=True)
             output_file = os.path.join(output_dir, 'sales_trend.png')
             plt.savefig(output_file)
-            print(f"\nCreated sales trend chart: {output_file}")
+            print(f"\n Created sales trend chart at : {output_file}")
             
-        except ValueError as e:
-            os.system('cls')
-            print(f"\n{e}")
-        except KeyboardInterrupt:
-            os.system('cls')
+        # except ValueError as e:
+        #     os.system('cls')
+        #     print(f"\n{e}")
+        # except KeyboardInterrupt:
+        #     os.system('cls')
                 
     def locate_price(self,target_price, data,target_suburb):
-        try:
+        # try:
             ValidateRequest.validate_dataframe(data)
             ValidateRequest.validate_target_price(target_price)
             ValidateRequest.validate_string(target_suburb)
@@ -113,22 +113,20 @@ class DataVisualiser:
             ValidateRequest.reverse_insertion_sort(get_price_list)
             # print(get_price_list)
             found = ValidateRequest.binary_search(get_price_list, target_price, 0, len(get_price_list) - 1)
-            
             return found
-        
-        except ValueError as e:
-            os.system('cls')
-            print(f"\n{e}")
-        except KeyboardInterrupt:
-            os.system('cls')
+            
+        # except ValueError as e:
+        #     os.system('cls')
+        #     print(f"\n {e}")
+        # except KeyboardInterrupt:
+        #     os.system('cls')
         
 # data_obj = DataVisualiser()
 # simple_obj = SimpleDataAnalyser()
 # file_path = os.path.join('property_information.csv')
 # dataframe = simple_obj.extract_property_info(file_path)
+# print(data_obj.locate_price(781000,dataframe,'clayton'))
 # empty_df = pd.DataFrame()
-# data_obj.locate_price(500004,dataframe,'clayton')
-
 # data_obj.prop_val_distribution(dataframe,"clayton","AUD")
 # data_obj.sales_trend(dataframe)
 # for sub in suburbs_data:

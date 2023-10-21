@@ -8,8 +8,10 @@ class Investor:
     def print_menu():
         print(" 1. Get summary of your suburb")
         print(" 2. Check average land size of your area")
-        print(" 3. Visualize data of your suburb")
-        print(" 4. Exit")
+        print(" 3. Visualize data of your suburb with histogram")
+        print(" 4. Get sales trend analysis with line chart")
+        print(" 5. Find Property prices")
+        print(" 6. Exit")
         
     @staticmethod    
     def exit_system():
@@ -32,12 +34,12 @@ class Investor:
             if choice.isdigit():
                 choice = int(choice)
             else:
-                raise ValueError("\n Invalid Input type. please enter correct input")
+                raise ValueError("Invalid Input type. please enter correct input")
                 
-            if 1 <= choice <= 4:
+            if 1 <= choice <= 6:
                 self.choice = choice
             else:
-                raise ValueError(f"\n Incorrect Choice {choice} : Does not exist ! Please select choice from Menu")
+                raise ValueError(f"Incorrect Choice {choice} : Does not exist ! Please select choice from Menu")
                 # break
             # except ValueError as e:
             #     os.system('cls')

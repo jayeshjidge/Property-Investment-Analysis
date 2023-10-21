@@ -55,8 +55,8 @@ class SimpleDataAnalyser:
                 columns = suburb_dataframe[[
                     'bedrooms', 'bathrooms', 'parking_spaces']].describe()
             os.system('cls')
-            print(f"\n Summary Details for {suburb.capitalize()} Suburb:\n")
-            print(columns)
+            print(f"\n Summary details for {suburb.capitalize()} suburb:\n")
+            print(f"\n {columns}")
 
         # except ValueError as e:
             # os.system('cls')

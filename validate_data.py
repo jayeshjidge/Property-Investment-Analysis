@@ -48,12 +48,14 @@ class ValidateRequest:
         
     @staticmethod
     def validate_target_price(target_price):
-        
+        if target_price.isdigit():
+            target_price = int(target_price)
+        if not target_price and not target_price == 0:
+            
+            raise ValueError("Empty Error: Target price cannot be zero")
         if not isinstance(target_price, int):
             raise ValueError("Input Error: Please enter a correct input type")
         
-        if not target_price or target_price == 0:
-            raise ValueError("Empty Error: Target price cannot be zero")
         
         
     @staticmethod
