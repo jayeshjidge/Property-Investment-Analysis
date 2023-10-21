@@ -65,14 +65,9 @@ class ValidateRequest:
     @staticmethod
     def binary_search(prices, target_price, low, high):
         target_price = float(target_price)
-        # print("low",low)
-        # print("high",high)
         if low > high:
             return False
         mid = (low + high) // 2
-        # print("mid",mid)
-        # print("price",prices[mid])
-        # print('')
         if prices[mid] == target_price:
             return True
         elif prices[mid] > target_price:

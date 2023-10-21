@@ -25,7 +25,7 @@ def get_target_currency(user_suburb):
     while True:
         try:
             print(f"\n Suburb selected : {user_suburb.capitalize()} \n\n (Type 0 to go back)")
-            user_traget_currency = input("\n Enter your currency type: ")
+            user_traget_currency = input("\n Enter your target price: ")
             ValidateRequest.validate_target_price(user_traget_currency)
             return user_traget_currency
         except ValueError as e:
@@ -58,7 +58,7 @@ def show_suburb_summary_1(dframe, simple_data_obj):
 def determine_avg_land_size_2(dframe, simple_data_obj):
     while True:
         try:
-            print("\n Avg land size of your Area")
+            print("\n Get Avg land size of your Area :-")
             print("\n (Type 'all' to get summary of all suburb) or \n (Type 'menu' to go back)")
             user_suburb = input("\n Enter your suburb: ")
             if user_suburb.lower() == 'menu':
@@ -134,33 +134,40 @@ def find_property_prices_5 (dframe,data_visual_obj):
             break
         
 def load_csv_file(simple_data_obj):
-    filePath = os.path.join('property_infomation.csv')
-    while not os.path.isfile(filePath):
-        os.system('cls')
-        try:
-            print(f"\n Error: File {filePath} does not exist")
-            print(f" File location should be : Property-Investment-Analysis/{filePath}")
-            print("\n Press Enter to continue after you have added the file or '0' to exit.")
-            user_option = input("\n Enter you choice : ")
-            if user_option == '0':
-                return pd.DataFrame()
+    dframe = pd.DataFrame()
+    try:
+        filePath = os.path.join('property_information.csv')
+        while not os.path.isfile(filePath):
+            os.system('cls')
+            try:
+                print(f"\n Error: File {filePath} does not exist")
+                print(f" File location should be : Property-Investment-Analysis/{filePath}")
+                print("\n Press Enter to continue after you have added the file or '0' to exit.")
+                user_option = input("\n Enter you choice : ")
+                if user_option == '0':
+                    return dframe
+            except KeyboardInterrupt:
+                return dframe
             
-        except KeyboardInterrupt:
-            return pd.DataFrame()
-        
-    return simple_data_obj.extract_property_info(filePath)
+        return simple_data_obj.extract_property_info(filePath)
+    except ValueError as e:
+        os.system('cls')
+        print(f"\n {e}")
+        return dframe
+    except KeyboardInterrupt:
+        os.system('cls')   
+        return dframe
+    
+    
 
 def main():
-        os.system('cls')
-        
-        investor_obj = Investor()
-        simple_data_obj = SimpleDataAnalyser()
-        data_visual_obj = DataVisualiser()
-    
-        try:
+            os.system('cls')
+            investor_obj = Investor()
+            simple_data_obj = SimpleDataAnalyser()
+            data_visual_obj = DataVisualiser()
+            
             dframe = load_csv_file(simple_data_obj)
             if dframe.empty:
-                os.system('cls')
                 return
             while True:
                 try:
@@ -182,21 +189,14 @@ def main():
                     elif choice == 5:
                         find_property_prices_5(dframe,data_visual_obj)
                     else:
-                        break    
+                        investor_obj.exit_system()  
+                        return  
                 except ValueError as e:
                     os.system('cls')
                     print(f"\n {e}")
                 except KeyboardInterrupt:
                     os.system('cls')
                     break
-        except ValueError as e:
-                    os.system('cls')
-                    print(f"\n {e}")
-        except KeyboardInterrupt:
-                    os.system('cls')
-
-
-
 
 if __name__ == '__main__':
     main()
