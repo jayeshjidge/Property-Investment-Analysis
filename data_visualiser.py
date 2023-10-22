@@ -4,7 +4,6 @@ import os
 import matplotlib.pyplot as plt
 from validate_data import ValidateRequest 
 from simple_data_analyser import SimpleDataAnalyser
-from suburbs import suburbs_data
 
 class DataVisualiser: 
 
@@ -45,7 +44,10 @@ class DataVisualiser:
                 target_currency = "AUD"
             suburb_dataframe = suburb_dataframe.copy()
             suburb_dataframe.dropna(subset=['price'], inplace=True)
-            plt.hist(suburb_dataframe['price'], bins=5, edgecolor='k', alpha=0.7)
+            bin_width = 100000
+            bin_range = range(int(suburb_dataframe['price'].min()), int(suburb_dataframe['price'].max()) + bin_width, bin_width)
+            print("\n Creating histogram ...")
+            plt.hist(suburb_dataframe['price'], bins=bin_range, edgecolor='k', alpha=0.7, color='blue')
             plt.xlabel('Property Value')
             plt.title(f'Property Value Distribution in {suburb.capitalize()} ({target_currency})')
             plt.tight_layout()
@@ -53,6 +55,7 @@ class DataVisualiser:
             os.makedirs(output_dir, exist_ok=True)
             output_file = os.path.join(output_dir, f'{suburb.lower()}_property_histogram_{target_currency}.png')
             plt.savefig(output_file)
+            os.system("cls")
             print(f"\n Created histogram for {suburb} with location : {output_file}")
    
     @staticmethod    
