@@ -1,3 +1,8 @@
+"""
+student_id: 34206108
+unit_code: FIT9136
+"""
+
 import pandas as pd
 import os
 from validate_data import ValidateRequest
@@ -6,7 +11,12 @@ class SimpleDataAnalyser:
 
     @staticmethod
     def extract_property_info(file_path=''):
-        
+        """
+        This function read CSV file data and validates the file path giving dataframe obtained after reading the csv file
+        Argument:
+            file_path(str) = takes file_path of csv file an argument
+        Returns: dataframe containing csv_data
+        """
         print("\n  ---------------------------")   
         print(" | Reading your csv file ... |")
         print("  ---------------------------")
@@ -18,6 +28,15 @@ class SimpleDataAnalyser:
 
     @staticmethod
     def currency_exchange(dataframe=None, exchange_rate=None):
+        """
+        This function is used for calculating currency exchange on the dataframe of csv file with respect to
+        exchange_rate
+        Arguments:
+            dataframe: Takes a dataframe of csv file as an argument default as none
+            exchange_rate(int): takes exchange rate as an argument default as none
+        Returns:
+            target_rate(numpy array): target rate prices from dataframe in numpy array form
+        """
         
         ValidateRequest.validate_dataframe(dataframe)
         ValidateRequest.validate_exchange_rate(exchange_rate)
@@ -28,6 +47,13 @@ class SimpleDataAnalyser:
         
     @staticmethod
     def suburb_summary(dataframe=None, suburb=''):
+        """
+        This function gives a summary details of a specified suburb mentioned by the user
+        Argument:
+            dataframe: Takes a dataframe of csv file as an argument default as none
+            suburb (str): A string containing the name of the suburb
+        Returns: N/A
+        """
         
         ValidateRequest.validate_dataframe(dataframe)
         ValidateRequest.validate_string(suburb)
@@ -44,6 +70,13 @@ class SimpleDataAnalyser:
             
     @staticmethod        
     def avg_land_size(dataframe=None, suburb=''):
+        """
+        This function gives the average land size of a given specific suburb
+        Arguments:
+           dataframe: Takes a dataframe of csv file as an argument and default value as none
+           suburb (str): A string containing name of the suburb
+        Returns(Boolean): returns average land size of suburb in m² if True else returns none if False
+        """
 
         ValidateRequest.validate_dataframe(dataframe)
         ValidateRequest.validate_string(suburb)
